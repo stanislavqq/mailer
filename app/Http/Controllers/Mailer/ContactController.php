@@ -203,7 +203,7 @@ class ContactController extends Controller
             $query->whereIn('id', $contactListIds);
         }
 
-        return $query->limit(1000)
+        return $query
             ->orderByDesc('clients_contact.client_id')
             ->get();
     }

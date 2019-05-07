@@ -22,12 +22,52 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
+
+import Vuex from 'vuex'
+
+import routes from './router';
+import VueRouter from "vue-router";
+
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+//import i18n from 'vue-i18n'
+import elementLangRu from 'element-ui/lib/locale/lang/ru-RU';
+import elementLocale from 'element-ui/lib/locale';
+elementLocale.use(elementLangRu);
+
+//Vue.use(i18n);
+Vue.use(VueRouter);
+Vue.use(Vuex);
+Vue.use(ElementUI);
+// Vue.use(ElementUI, {
+//     i18n: (key, value) => i18n.t(key, value)
+// });
+
+global.Router = new VueRouter({
+    routes,
+});
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import AppMailer from './components/mailer/AppMailer';
+import storeMailer from './storeMailer'
+
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    components: {
+        AppMailer
+    },
+    created() {
+        this.$store.dispatch("SET_TEMPLATES");
+        //this.$store.dispatch("SET_CLIENTS");
+        this.$store.dispatch("SET_CONTACT_LISTS");
+        this.$store.dispatch("SET_DISTRIBUTIONS");
+        this.$store.dispatch("SET_MAILER_DRIVERS");
+    },
+    router: Router,
+    store: storeMailer
 });

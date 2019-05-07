@@ -22,6 +22,11 @@ use Illuminate\Validation\Validator;
 
 class MailerController extends Controller
 {
+
+    public function index() {
+        return view('mailer.index');
+    }
+
     public function getClients(Request $request)
     {
 //        $clients = DB::table('clients_contact')

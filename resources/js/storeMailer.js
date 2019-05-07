@@ -1,6 +1,7 @@
+import Vue from 'vue'
 import Vuex from 'vuex'
 
-window.Vue.use(Vuex);
+Vue.use(Vuex);
 
 const state = {
     tableData: [],

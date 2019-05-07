@@ -261,17 +261,17 @@
             let self = this;
 
             console.log(this.distributions);
-            console.log('listen', 'mailer:MailerProcessing' + configSocketChannel + '.' + user.id);
-            io.on('mailer:MailerProcessing' + configSocketChannel + '.' + user.id, data => {
-                let counData = data.data.data;
-
-                let allCount = counData.all_count;
-                let current = counData.current;
-
-                console.log(allCount);
-
-                self.setProgress(Math.round((100 / allCount) * current));
-            });
+            //console.log('listen', 'mailer:MailerProcessing' + configSocketChannel + '.' + user.id);
+            // io.on('mailer:MailerProcessing' + configSocketChannel + '.' + user.id, data => {
+            //     let counData = data.data.data;
+            //
+            //     let allCount = counData.all_count;
+            //     let current = counData.current;
+            //
+            //     console.log(allCount);
+            //
+            //     self.setProgress(Math.round((100 / allCount) * current));
+            // });
         }
     }
 </script>

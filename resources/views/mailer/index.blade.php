@@ -1,5 +1,5 @@
-<div id="app_mailer">
-    <app-mailer></app-mailer>
-</div>
+@extends('layout.app')
 
-<script src="{{ asset('/js/app_mailer.js') }}"></script>
+@section('content')
+    <app-mailer></app-mailer>
+@endsection

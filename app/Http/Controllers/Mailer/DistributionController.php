@@ -144,8 +144,8 @@ class DistributionController extends Controller
                 $this->dispatch(new SendEmail([
                     'to' => 'stanislavqq@yandex.ru',
                     'from' => $distribution->from_email,
-                    'subject' => utf8_encode($distribution->subject),
-                    'body' => utf8_encode($body)
+                    'subject' => $distribution->subject,
+                    'body' => $body
                 ]));
             } catch (\Exception $ex) {
                 return response()->json([
@@ -218,8 +218,8 @@ class DistributionController extends Controller
         $res = $this->dispatch(new SendEmail([
             'to' => $email,
             'from' => Config::get('mail.username'),
-            'subject' => utf8_encode("Test message"),
-            'body' => utf8_encode($body)
+            'subject' => "Тестовое сообщение | Test message",
+            'body' => $body
         ]), true);
 
         //$res = self::sendEmail($email, $template, 'test message');
