@@ -28,7 +28,7 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="Ваш Email">
-                                <el-input v-model="formTest.email" placeholder="Email"></el-input>
+                                <el-input v-model="formTest.email" :value="user.user_email" placeholder="Email"></el-input>
                             </el-form-item>
                             <el-form-item>
                                 <el-button @click="testSend()">Отправить</el-button>
@@ -72,7 +72,10 @@
             }),
             ...mapGetters({
                 templates: "GET_TEMPLATES_DATA"
-            })
+            }),
+            ...mapGetters({
+                user: "GET_CURRENT_USER"
+            }),
         },
         methods: {
             testSend() {
@@ -84,17 +87,9 @@
 
                     });
             },
-            test() {
-                let random = Math.floor(Math.random() * (101 - 0)) + 0;
-                this.progressbar = random;
-
-                if (random == 100) {
-                    this.progressStatus = 'success';
-                } else {
-                    this.progressStatus = '';
-                }
-
-            }
+        },
+        mounted() {
+            console.log(this.user);
         }
     }
 </script>

@@ -19,6 +19,8 @@ Route::group(['prefix' => 'mailer'], function () {
 
     Route::get('/', 'Mailer\MailerController@index');
 
+    Route::post('get_user', 'Mailer\MailerController@getUser');
+
     Route::group(['prefix' => 'contact'], function() {
         Route::post('get_clients_list', 'Mailer\ContactController@getClientsList');
         Route::post('get_list',         'Mailer\ContactController@getContactList');
@@ -26,6 +28,7 @@ Route::group(['prefix' => 'mailer'], function () {
         Route::post('update',           'Mailer\ContactController@update');
         Route::post('remove',           'Mailer\ContactController@remove');
         Route::post('get_item',         'Mailer\ContactController@getListItem');
+        Route::post('filter/search',    'Mailer\ContactController@filterSearch');
     });
 
     Route::group(['prefix' => 'template'], function() {

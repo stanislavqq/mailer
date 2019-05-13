@@ -27,6 +27,10 @@ class MailerController extends Controller
         return view('mailer.index');
     }
 
+    public function getUser() {
+        return Auth::user()->toJson();
+    }
+
     public function getClients(Request $request)
     {
 //        $clients = DB::table('clients_contact')

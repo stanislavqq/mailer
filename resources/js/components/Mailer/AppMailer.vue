@@ -18,11 +18,13 @@
         data() {
             return {}
         },
+        computed: {
+
+        },
         components: {
             MailerMenu
         },
-        methods: {
-        }
+        methods: {}
     }
 </script>
 

@@ -3,7 +3,7 @@
         <ul class="mailer-menu">
             <li v-for="rLink in routeLinks">
                 <router-link :to="rLink.to" :title="rLink.title">
-                    <div><i class="fa" :class="rLink.icon"></i></div>
+                    <div><i class="el" :class="rLink.icon"></i></div>
                 </router-link>
             </li>
         </ul>
@@ -19,24 +19,24 @@
                     {
                         title: 'Шаблоны',
                         to: {name: 'mailerTemplates'},
-                        icon: "fa-layer-group",
+                        icon: "el-icon-s-open",
                     },
 
                     {
                         title: 'Рассылки',
                         to: {name: 'Distribution'},
-                        icon: "fa-mail-bulk",
+                        icon: "el-icon-s-promotion",
                     },
 
                     {
                         title: 'Контакты',
                         to: {name: 'Contacts'},
-                        icon: "fa-user",
+                        icon: "el-icon-s-custom",
                     },
                     {
                         title: 'Настройки',
                         to: {name: 'MailerSettings'},
-                        icon: "fa-cog",
+                        icon: "el-icon-s-tools",
                     },
                 ]
             }

@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -33,6 +32,9 @@ import 'element-ui/lib/theme-chalk/index.css';
 //import i18n from 'vue-i18n'
 import elementLangRu from 'element-ui/lib/locale/lang/ru-RU';
 import elementLocale from 'element-ui/lib/locale';
+import AppMailer from './components/mailer/AppMailer';
+import storeMailer from './storeMailer';
+
 elementLocale.use(elementLangRu);
 
 //Vue.use(i18n);
@@ -53,9 +55,6 @@ global.Router = new VueRouter({
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-import AppMailer from './components/mailer/AppMailer';
-import storeMailer from './storeMailer'
-
 const app = new Vue({
     el: '#app',
     components: {
@@ -67,6 +66,7 @@ const app = new Vue({
         this.$store.dispatch("SET_CONTACT_LISTS");
         this.$store.dispatch("SET_DISTRIBUTIONS");
         this.$store.dispatch("SET_MAILER_DRIVERS");
+        this.$store.dispatch("SET_CURRENT_USER");
     },
     router: Router,
     store: storeMailer

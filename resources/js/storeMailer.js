@@ -8,6 +8,8 @@ const state = {
     templates: [],
     templateVariables: [],
     clients: [],
+    currentUser: null,
+    clientsTotal: 0,
     contact_lists: [],
     edit_contact_list: {
         id: 0,
@@ -37,7 +39,8 @@ const actions = {
 
                     commit("UPDATE_STATE", {name: "smtpProfiles", value: data});
                 })
-                .catch(error => {})
+                .catch(error => {
+                })
         },
         async SAVE_MAILER_DRIVER_USER({state, commit}, params) {
             axios.post('/mailer/drivers/save', params)
@@ -60,17 +63,27 @@ const actions = {
             //state.templates = tableData;
         },
 
-        async SET_CLIENTS({state, commit}) {
-            axios.post('/mailer/contact/get_clients_list')
+        async SET_CLIENTS({state, commit}, params) {
+            console.log('store test', params);
+            axios.post('/mailer/contact/get_clients_list', params)
                 .then(response => {
-                    console.log(response);
                     let clients = response.data.clients;
+                    let clientsTotal = response.data.clients_total;
+
                     if (response.status === 200 && clients) {
                         state.clients = JSON.parse(clients);
+                        state.clientsTotal = JSON.parse(clientsTotal);
                     }
                 })
                 .catch(response => {
                     console.error(response)
+                });
+        },
+
+        async SET_CURRENT_USER({state, commit}) {
+            axios.post('/mailer/get_user')
+                .then(response => {
+                    state.currentUser = response.data;
                 });
         },
 
@@ -180,6 +193,9 @@ const getters = {
     GET_CLIENTS(state) {
         return state.clients;
     },
+    GET_CLIENTS_TOTAL(state) {
+        return state.clientsTotal;
+    },
     GET_CONTACT_LIST_ITEM(state) {
         return state.edit_contact_list;
     },
@@ -189,7 +205,10 @@ const getters = {
     GET_DISTRIBUTIONS_BY_INDEX(state) {
         return state.distributions;
         //return distributions;
-    }
+    },
+    GET_CURRENT_USER(state) {
+      return state.currentUser;
+    },
 };
 
 const mutations = {

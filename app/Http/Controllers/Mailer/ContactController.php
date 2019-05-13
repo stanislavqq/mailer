@@ -14,17 +14,51 @@ use Illuminate\Support\Facades\DB;
 
 class ContactController extends Controller
 {
+    private $filterFieldsToDataRequest = [
+        "client_name" => 'c.client_name',
+        "client_director" => 'clients_contact.name',
+        "client_email" => 'clients_contact.email',
+        "client_phone" => 'clients_contact.phone',
+        "client_city" => 'lc.city_name',
+    ];
 
     /**
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getClientsList()
+    public function getClientsList(Request $request)
     {
-        $clients = $this->getClientContacts();
+        $limit = $request->input('limit', 50);
+        $offset = $request->input('offset', 50);
+
+        $filter = $request->input('filter');
+
+        $clientsQuery = $this->getClientContacts();
+
+        $clients = $clientsQuery;
+
+        foreach ($this->filterFieldsToDataRequest as $index => $value) {
+            if (isset($filter[$index]) && !empty($filter[$index])) {
+                $clients = $clients->where($value, 'like', "%" . $filter[$index] . "%");
+            }
+        }
+
+        $clientsTotal = $clientsQuery->count();
+
+        $clients = $clientsQuery->orderByDesc('clients_contact.client_id');
+
+        if ($clientsTotal > $limit) {
+            $clients->take($limit)
+                ->offset($offset);
+        }
+
+        $clients = $clients->get();
 
         if ($clients) {
             return response()->json([
                 'clients' => $clients->toJson(),
+                'count' => $clients->count(),
+                'clients_total' => $clientsTotal
             ], 200);
         }
 
@@ -61,7 +95,7 @@ class ContactController extends Controller
         $contactListItem = ContactList::where('id', $id)->first();
 
         $contactListIds = ClientsContactsLists::select('contact_id')->where('list_id', $id)->pluck('contact_id');
-        $contactList = $this->getClientContacts($contactListIds);
+        $contactList = $this->getClientContacts($contactListIds)->get();
 
         return response()->json([
             'id' => $contactListItem->id,
@@ -75,7 +109,8 @@ class ContactController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getListItem(Request $request) {
+    public function getListItem(Request $request)
+    {
         $id = $request->input('id');
 
         $contactListItem = ContactList::where('id', $id)->first();
@@ -84,7 +119,7 @@ class ContactController extends Controller
             ->where('list_id', $id)
             ->pluck('contact_id');
 
-        $contactList = $this->getClientContacts($contactListIds);//ClientsContact::whereIn('id', $contactListIds)->get();
+        $contactList = $this->getClientContacts($contactListIds)->get();//ClientsContact::whereIn('id', $contactListIds)->get();
 
         return response()->json([
             'id' => $contactListItem->id,
@@ -198,13 +233,10 @@ class ContactController extends Controller
             ->leftJoin('clients as c', 'clients_contact.client_id', '=', 'c.client_id')
             ->leftJoin('location_city as lc', 'c.client_city', '=', 'lc.city_id');
 
-
         if ($contactListIds) {
             $query->whereIn('id', $contactListIds);
         }
 
-        return $query
-            ->orderByDesc('clients_contact.client_id')
-            ->get();
+        return $query;
     }
 }
