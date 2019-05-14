@@ -98,6 +98,7 @@ const actions = {
                 })
         },
         async SET_CONTACT_LIST_ITEM({state, commit}, contactListId) {
+            console.log('SET_CONTACT_LIST_ITEM request begin');
             axios.post('/mailer/contact/get_item', {
                 id: contactListId
             })

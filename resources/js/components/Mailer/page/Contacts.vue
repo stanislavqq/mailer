@@ -40,7 +40,7 @@
                         width="200">
                     <template slot-scope="scope">
                         <el-button type="primary" size="mini" circle icon="el-icon-edit"
-                                   @click="$router.push({ name: 'ContactsEdit', params: {id: scope.row.id}})">
+                                   @click="handleContactEditClick(scope.row)">
                             <!--<router-link :to="">Редактировать</router-link>-->
                         </el-button>
                         <el-button type="danger" size="mini" circle icon="el-icon-delete"
@@ -69,6 +69,11 @@
             })
         },
         methods: {
+            handleContactEditClick(row) {
+                console.log('handleContactEditClick', row);
+                this.$store.dispatch('SET_CONTACT_LIST_ITEM', row.id);
+                this.$router.push({ name: 'ContactsEdit', params: {id: row.id}});
+            },
             handleListRemove(index, row) {
                 console.log(index, row);
                 let self = this;

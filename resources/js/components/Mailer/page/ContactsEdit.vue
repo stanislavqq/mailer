@@ -40,6 +40,7 @@
     export default {
         name: "ContactsEdit",
         components: {ContactList},
+        //props: {formEdit},
         data() {
             return {}
         },
@@ -49,7 +50,7 @@
             }),
         },
         created() {
-            this.$store.dispatch('SET_CONTACT_LIST_ITEM', this.$route.params.id);
+
         },
         methods: {
             handleClientDelete(index, row) {
